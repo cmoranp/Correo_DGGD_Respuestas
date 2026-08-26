@@ -1,0 +1,71 @@
+# Correo_DGGD_Respuestas - Configuración de Ejemplo
+#
+# INSTRUCCIONES:
+# 1. Copia este archivo a config.yaml
+# 2. Reemplaza los valores [TOKEN], [ID], etc. con datos reales
+# 3. NUNCA versionees config.yaml (está en .gitignore)
+# 4. Asegúrate de que tu config.yaml tiene permisos 600 (chmod 600 config.yaml)
+
+google:
+  # Token OAuth 2.0 de Google (Gmail, Drive, Sheets)
+  # Obtén desde Google Cloud Console
+  oauth_token: "[REEMPLAZAR_CON_TOKEN_DE_ACCESO_OAUTH]"
+
+  # ID de Google Sheets (ENTRADAS 2026_DGGD)
+  sheets_id: "1Wkq4rGusUwqBsowANhstYoxnw-neFYLXRc2G953oN8Y"
+
+  # Carpeta de Google Drive para almacenar respuestas
+  drive_folder: "1mqd9JOsYyX3x1zKufFd5iuXZeTLkSck0"
+
+gmail:
+  # Email de origen para búsqueda de respuestas
+  respuesta_email: "dguerreron@cdmx.gob.mx"
+
+  # Palabras clave para filtrar en asunto/cuerpo
+  filtro_asunto:
+    - "atención"
+    - "referencia"
+    - "oficio"
+    - "respuesta"
+    - "re:"
+
+# Configuración de logging
+logging:
+  # Archivo de auditoría (acceso a Sheets/Drive)
+  auditoria: "logs/auditoria.log"
+
+  # Archivo de logs técnicos (debug, errores)
+  tecnico: "logs/tecnico.log"
+
+  # Nivel de log (DEBUG, INFO, WARNING, ERROR)
+  nivel: "INFO"
+
+# Configuración de OCR
+ocr:
+  # Lenguaje para Tesseract
+  idioma: "spa"
+
+  # Timeout en segundos para OCR
+  timeout: 30
+
+  # Confianza mínima para aceptar texto (0-100)
+  confianza_minima: 70
+
+# Configuración de procesamiento
+procesamiento:
+  # Máximo número de correos a procesar por ejecución
+  max_correos: 50
+
+  # Guardar copias de PDFs localmente para debug
+  debug_pdf: false
+
+  # Validar oficio en Sheets antes de actualizar
+  validar_antes_escribir: true
+
+# Rutas
+rutas:
+  # Directorio de descargas temporales
+  temp_downloads: "temp/"
+
+  # Directorio de logs
+  logs: "logs/"
