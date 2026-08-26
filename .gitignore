@@ -2,6 +2,7 @@
 config.yaml
 *.env
 .env.local
+get_token.py
 
 # Python
 __pycache__/

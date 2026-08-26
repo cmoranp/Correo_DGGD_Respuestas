@@ -24,9 +24,7 @@ class GmailReader:
 
     def _authenticate(self) -> None:
         try:
-            credentials = Credentials.from_authorized_user_info(
-                {"access_token": self.oauth_token}, scopes=SCOPES
-            )
+            credentials = Credentials(token=self.oauth_token)
             self.service = build("gmail", "v1", credentials=credentials)
             logger.info("Autenticación Gmail exitosa")
         except Exception as e:

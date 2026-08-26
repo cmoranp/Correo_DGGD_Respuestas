@@ -20,9 +20,7 @@ class SheetsHandler:
 
     def _authenticate(self) -> None:
         try:
-            credentials = Credentials.from_authorized_user_info(
-                {"access_token": self.oauth_token}, scopes=SCOPES
-            )
+            credentials = Credentials(token=self.oauth_token)
             self.service = build("sheets", "v4", credentials=credentials)
             logger.info("Autenticación Google Sheets exitosa")
         except Exception as e:
