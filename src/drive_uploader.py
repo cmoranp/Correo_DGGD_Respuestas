@@ -46,19 +46,18 @@ class DriveUploader:
             file_metadata = {
                 "name": nombre_archivo,
                 "parents": [self.carpeta_destino],
-                "mimeType": "application/pdf",
             }
 
             media = MediaIoBaseUpload(
                 io.BytesIO(contenido),
                 mimetype="application/pdf",
-                resumable=True
+                resumable=False
             )
 
             file = self.service.files().create(
                 body=file_metadata,
                 media_body=media,
-                fields="id, webViewLink, parents"
+                fields="id, webViewLink"
             ).execute()
 
             file_id = file.get("id")
