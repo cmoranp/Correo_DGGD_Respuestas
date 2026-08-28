@@ -7,9 +7,10 @@
 # 4. Asegúrate de que tu config.yaml tiene permisos 600 (chmod 600 config.yaml)
 
 google:
-  # Token OAuth 2.0 de Google (Gmail, Drive, Sheets)
-  # Obtén desde Google Cloud Console
-  oauth_token: "[REEMPLAZAR_CON_TOKEN_DE_ACCESO_OAUTH]"
+  # Credenciales OAuth (rutas a archivos montados, NO versionadas)
+  # Igual que CorreoDGGD: archivos externos fuera del repositorio
+  google_client_secret_path: "/ruta/montada/client_secret.json"
+  google_token_path: "/ruta/montada/google_token.json"
 
   # ID de Google Sheets (ENTRADAS 2026_DGGD)
   sheets_id: "1Wkq4rGusUwqBsowANhstYoxnw-neFYLXRc2G953oN8Y"

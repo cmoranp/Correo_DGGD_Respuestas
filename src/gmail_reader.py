@@ -1,11 +1,7 @@
 import base64
-import hashlib
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
-from google.oauth2.service_account import Credentials as ServiceAccountCredentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.exceptions import RefreshError
 from googleapiclient.discovery import build
 import logging
 
@@ -17,14 +13,16 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 class GmailReader:
     """Lector de correos desde Gmail"""
 
-    def __init__(self, oauth_token: str):
-        self.oauth_token = oauth_token
+    def __init__(self, token_path: str):
+        self.token_path = token_path
         self.service = None
         self._authenticate()
 
     def _authenticate(self) -> None:
         try:
-            credentials = Credentials(token=self.oauth_token)
+            credentials = Credentials.from_authorized_user_file(self.token_path, SCOPES)
+            if credentials.expired and credentials.refresh_token:
+                credentials.refresh(Request())
             self.service = build("gmail", "v1", credentials=credentials)
             logger.info("Autenticación Gmail exitosa")
         except Exception as e:

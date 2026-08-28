@@ -25,7 +25,7 @@ class Config:
 
     def _validate_config(self) -> None:
         required_keys = [
-            "google.oauth_token",
+            "google.google_token_path",
             "google.sheets_id",
             "google.drive_folder",
             "gmail.respuesta_email",
@@ -49,8 +49,12 @@ class Config:
         return self._get_nested(key, default)
 
     @property
-    def oauth_token(self) -> str:
-        return self.get("google.oauth_token")
+    def google_token_path(self) -> str:
+        return self.get("google.google_token_path")
+
+    @property
+    def google_client_secret_path(self) -> str:
+        return self.get("google.google_client_secret_path")
 
     @property
     def sheets_id(self) -> str:

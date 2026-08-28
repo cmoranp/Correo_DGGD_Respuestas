@@ -1,9 +1,9 @@
 import logging
 from typing import Optional
-from pathlib import Path
 from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload, MediaIoBaseUpload
+from googleapiclient.http import MediaIoBaseUpload
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 import io
 
 logger = logging.getLogger(__name__)
@@ -14,15 +14,17 @@ SCOPES = ["https://www.googleapis.com/auth/drive"]
 class DriveUploader:
     """Uploader de archivos a Google Drive"""
 
-    def __init__(self, oauth_token: str, carpeta_destino: str):
-        self.oauth_token = oauth_token
+    def __init__(self, token_path: str, carpeta_destino: str):
+        self.token_path = token_path
         self.carpeta_destino = carpeta_destino
         self.service = None
         self._authenticate()
 
     def _authenticate(self) -> None:
         try:
-            credentials = Credentials(token=self.oauth_token)
+            credentials = Credentials.from_authorized_user_file(self.token_path, SCOPES)
+            if credentials.expired and credentials.refresh_token:
+                credentials.refresh(Request())
             self.service = build("drive", "v3", credentials=credentials)
             logger.info("Autenticación Google Drive exitosa")
         except Exception as e:

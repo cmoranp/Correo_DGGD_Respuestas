@@ -28,17 +28,17 @@ class CorreoDGGDResponstas:
 
         self.logger.info("Inicializando Correo_DGGD_Respuestas...")
 
-        self.gmail = GmailReader(self.config.oauth_token)
+        self.gmail = GmailReader(self.config.google_token_path)
         self.extractor = PDFExtractor(
             self.config.ocr_idioma,
             self.config.ocr_timeout
         )
         self.sheets = SheetsHandler(
-            self.config.oauth_token,
+            self.config.google_token_path,
             self.config.sheets_id
         )
         self.drive = DriveUploader(
-            self.config.oauth_token,
+            self.config.google_token_path,
             self.config.drive_folder
         )
         self.matcher = MatchingEngine(self.sheets, self.auditoria)

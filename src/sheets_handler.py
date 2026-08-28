@@ -1,8 +1,8 @@
 import logging
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -12,15 +12,17 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 class SheetsHandler:
     """Manejador de lectura/escritura en Google Sheets"""
 
-    def __init__(self, oauth_token: str, sheets_id: str):
-        self.oauth_token = oauth_token
+    def __init__(self, token_path: str, sheets_id: str):
+        self.token_path = token_path
         self.sheets_id = sheets_id
         self.service = None
         self._authenticate()
 
     def _authenticate(self) -> None:
         try:
-            credentials = Credentials(token=self.oauth_token)
+            credentials = Credentials.from_authorized_user_file(self.token_path, SCOPES)
+            if credentials.expired and credentials.refresh_token:
+                credentials.refresh(Request())
             self.service = build("sheets", "v4", credentials=credentials)
             logger.info("Autenticación Google Sheets exitosa")
         except Exception as e:
